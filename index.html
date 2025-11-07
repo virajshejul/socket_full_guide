@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Socket Programming – The Ultimate Visual Guide</title>
+<style>
+  :root {
+    --bg-color: #0d1117;
+    --text-color: #c9d1d9;
+    --accent: #58a6ff;
+    --nav-bg: #161b22;
+    --code-bg: #161b22;
+    --border-color: #30363d;
+  }
+
+  [data-theme="light"] {
+    --bg-color: #f9fafc;
+    --text-color: #111;
+    --accent: #0070f3;
+    --nav-bg: #ffffff;
+    --code-bg: #f0f0f0;
+    --border-color: #d0d0d0;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    line-height: 1.7;
+    transition: background 0.4s, color 0.4s;
+  }
+
+  nav {
+    width: 260px;
+    background: var(--nav-bg);
+    padding: 2rem 1rem;
+    height: 100vh;
+    position: fixed;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+    transition: background 0.4s, color 0.4s;
+  }
+
+  nav h2 {
+    color: var(--accent);
+    text-align: center;
+  }
+
+  nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+    margin: 0.7rem 0;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  nav a:hover {
+    color: var(--accent);
+  }
+
+  main {
+    margin-left: 270px;
+    padding: 2rem 3rem;
+    max-width: 1000px;
+  }
+
+  h1, h2, h3 {
+    color: var(--accent);
+  }
+
+  pre {
+    background: var(--code-bg);
+    padding: 1rem;
+    border-radius: 10px;
+    overflow-x: auto;
+  }
+
+  code {
+    font-family: 'Consolas', monospace;
+  }
+
+  .diagram {
+    background: var(--code-bg);
+    padding: 1rem;
+    border-radius: 10px;
+    margin: 1rem 0;
+    text-align: center;
+  }
+
+  .toggle-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .toggle-btn:hover {
+    background: #4690ff;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .highlight {
+    color: var(--accent);
+    font-weight: 600;
+  }
+</style>
+</head>
+<body data-theme="dark">
+  <button class="toggle-btn" onclick="toggleTheme()">☀️ / 🌙</button>
+
+  <nav>
+    <h2>Socket Guide</h2>
+    <a href="#intro">Introduction</a>
+    <a href="#architecture">Network Architecture</a>
+    <a href="#what">What is a Socket?</a>
+    <a href="#types">Types of Sockets</a>
+    <a href="#protocols">Socket Protocols</a>
+    <a href="#tcp-handshake">TCP 3-Way Handshake</a>
+    <a href="#functions">Common Functions</a>
+    <a href="#lifecycle">Socket Lifecycle</a>
+    <a href="#communication">Client-Server Flow</a>
+    <a href="#examples">Code Examples</a>
+    <a href="#ports">Ports & Addresses</a>
+    <a href="#websocket">WebSocket</a>
+    <a href="#security">Security</a>
+    <a href="#concurrency">Concurrency</a>
+    <a href="#errors">Error Handling</a>
+    <a href="#performance">Optimization</a>
+    <a href="#real">Real-world Uses</a>
+    <a href="#conclusion">Conclusion</a>
+  </nav>
+
+  <main>
+    <h1 id="intro">Socket Programming – The Ultimate Visual Guide</h1>
+    <p>Sockets form the <b>core of modern communication</b>. From chatting in WhatsApp to multiplayer gaming — all rely on socket connections. This advanced guide explores every part of socket programming, from basic concepts to performance and security layers.</p>
+
+    <h2 id="architecture">Network Architecture</h2>
+    <div class="diagram">
+      OSI Model:<br>
+      Application → Transport → Network → Data Link → Physical<br><br>
+      Sockets operate at <b>Transport Layer (TCP/UDP)</b> & Application Layer.
+    </div>
+
+    <h2 id="what">What is a Socket?</h2>
+    <p>A socket is an endpoint that allows two devices to exchange data. It acts like a bridge connecting applications across a network.</p>
+
+    <div class="diagram">
+      Client ⇄ (Network) ⇄ Server<br>
+      socket() → connect() ⇄ accept()
+    </div>
+
+    <h2 id="types">Types of Sockets</h2>
+    <ul>
+      <li><b>Stream Sockets (TCP):</b> Reliable, connection-based.</li>
+      <li><b>Datagram Sockets (UDP):</b> Fast, no connection required.</li>
+      <li><b>Raw Sockets:</b> Direct access to network layers.</li>
+      <li><b>WebSockets:</b> Real-time browser communication.</li>
+    </ul>
+
+    <h2 id="protocols">Socket Protocols</h2>
+    <p><b>TCP</b> ensures data integrity, while <b>UDP</b> focuses on speed. Both are widely used across different applications.</p>
+
+    <h2 id="tcp-handshake">TCP 3-Way Handshake</h2>
+    <div class="diagram">
+      1️⃣ SYN → 2️⃣ SYN+ACK → 3️⃣ ACK ✅<br>
+      A secure connection is established before communication.
+    </div>
+
+    <h2 id="functions">Common Functions</h2>
+    <ul>
+      <li><b>socket()</b> – Create a socket.</li>
+      <li><b>bind()</b> – Assign IP & port.</li>
+      <li><b>listen()</b> – Wait for clients.</li>
+      <li><b>accept()</b> – Accept connections.</li>
+      <li><b>connect()</b> – Connect to server.</li>
+      <li><b>send()/recv()</b> – Data exchange.</li>
+      <li><b>close()</b> – End session.</li>
+    </ul>
+
+    <h2 id="lifecycle">Socket Lifecycle</h2>
+    <div class="diagram">
+      socket() → bind() → listen() → accept() → communicate() → close()
+    </div>
+
+    <h2 id="communication">Client-Server Flow</h2>
+    <p>The client initiates connection, and the server responds. Together they exchange packets using the chosen protocol.</p>
+
+    <h2 id="examples">Code Examples</h2>
+    <h3>Python Server</h3>
+    <pre><code>import socket
+server = socket.socket()
+server.bind(('localhost', 8080))
+server.listen(1)
+print("Server listening...")
+conn, addr = server.accept()
+print("Connected to", addr)
+conn.send(b"Hello from Server")
+conn.close()</code></pre>
+
+    <h3>Node.js Example</h3>
+    <pre><code>const net = require('net');
+const server = net.createServer(socket => {
+  console.log("Client connected");
+  socket.write("Hello Client!");
+});
+server.listen(8080);</code></pre>
+
+    <h2 id="websocket">WebSocket</h2>
+    <p>WebSockets allow real-time communication in web apps without repeatedly reloading pages.</p>
+
+    <div class="diagram">
+      Browser ↔ WebSocket Server ↔ Database
+    </div>
+
+    <h2 id="security">Security</h2>
+    <ul>
+      <li>Use <b>SSL/TLS</b> encryption.</li>
+      <li>Validate user input & sanitize data.</li>
+      <li>Implement authentication & token-based access.</li>
+    </ul>
+
+    <h2 id="concurrency">Concurrency</h2>
+    <p>To handle multiple clients:</p>
+    <ul>
+      <li><b>Thread-based:</b> Each connection uses one thread.</li>
+      <li><b>Async model:</b> Non-blocking (used in Node.js, asyncio).</li>
+    </ul>
+
+    <h2 id="errors">Error Handling</h2>
+    <ul>
+      <li><b>ConnectionRefusedError:</b> Server not available.</li>
+      <li><b>TimeoutError:</b> No response within limit.</li>
+      <li><b>BrokenPipeError:</b> Unexpected disconnect.</li>
+    </ul>
+
+    <h2 id="performance">Performance Optimization</h2>
+    <ul>
+      <li>Use caching & compression.</li>
+      <li>Reduce latency using UDP for fast apps.</li>
+      <li>Optimize socket buffer size.</li>
+    </ul>
+
+    <h2 id="real">Real-world Uses</h2>
+    <ul>
+      <li>Chat apps (WhatsApp, Discord)</li>
+      <li>Games (Multiplayer servers)</li>
+      <li>Video streaming (Netflix, YouTube)</li>
+      <li>IoT communication systems</li>
+    </ul>
+
+    <h2 id="conclusion">Conclusion</h2>
+    <p>Sockets are the heart of digital communication. Mastering them gives developers the power to build fast, secure, and scalable systems — from chat apps to high-performance cloud networks.</p>
+
+    <footer>
+      Created by <b>Viraj Shejul</b> © 2025<br>
+      <a href="https://github.com/VirajShejul" style="color:var(--accent);">GitHub</a> |
+      <a href="mailto:vshejul054@mail.com" style="color:var(--accent);">Email</a>
+    </footer>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const current = body.getAttribute("data-theme");
+      body.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+    }
+  </script>
+</body>
+</html>
